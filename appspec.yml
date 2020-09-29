@@ -8,16 +8,24 @@ files:
 
 hooks:
   BeforeInstall:
-    - location: scripts/stop_apache.sh
+    - location: scripts/clean_webroot
       runas: root
-  ApplicationStart:
-    - location: scripts/changepermission.sh
-      timeout: 3600
+  
   AfterInstall:
-    - location: scripts/start_apache.sh
-      timeout: 180
+    - location: scripts/install_python3
+      timeout: 300
+      runas: root 
+    - location: scripts/install_httpd
+      timeout: 300
+      runas: root 
+  ApplicationStart:
+    - location: scripts/start_server
+      timeout: 3600
+  ApplicationStop:
+    - location: scripts/stop_server
+      timeout: 300
       runas: root
   ValidateService:
-    - location: scripts/status_apache.sh
+    - location: scripts/status_apache
       timeout: 3600
       runas: root

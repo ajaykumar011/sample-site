@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Install apache
+yum -y install httpd-2.4.41
+
+# Set file and folder permissions
+chgrp -R apache /home/ec2-user/
+find /home/ec2-user/ -type d -exec chmod g+rx {} +
+find /home/ec2-user/ -type f -exec chmod g+r {} +
+chown -R ec2-user /home/ec2-user/
+find /home/ec2-user/ -type d -exec chmod u+rwx {} +
+find /home/ec2-user/ -type f -exec chmod u+rw {} +
+
+sed -i "s|AllowOverride None|AllowOverride All|g"  /etc/httpd/conf/httpd.conf
+#sed -i "s|/var/www/html|/var/www/phplaravel/public|g"  /etc/httpd/conf/httpd.conf
+sed -i "s|index.html|index.php|g" /etc/httpd.conf/httpd.conf
+
+cd /var/www/html
+chown -R ec2-user:ec2-user /var/www/html
+useradd -G ec2-user apache
+
