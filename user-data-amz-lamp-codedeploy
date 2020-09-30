@@ -1,0 +1,43 @@
+#!/bin/bash -xe
+
+## Code Deploy Agent Bootstrap Script with LAMP ##
+exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
+REGION=ap-south-1
+#Insallation of LAMP
+yum update -y
+sleep 30
+amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
+yum install -y httpd mariadb-server git ruby curl unzip wget jq python3-3.7.6-1.amzn2.0.1 python3-pip-9.0.3
+sleep 10
+cd /tmp/
+pip3 install -Iv --upgrade pip==20.2.1
+pip3 install --user boto3
+pip3 install --user pycryptodome
+
+wget https://aws-codedeploy-${REGION}.s3.amazonaws.com/latest/install
+chmod +x ./install
+./install auto
+echo "Code Deploy Agent Instalation completed"
+#Installation of AWS CLI2
+sleep 5
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install
+
+#Basic Setting and Service restart
+sleep 5
+sed -i "s|AllowOverride None|AllowOverride All|g"  /etc/httpd/conf/httpd.conf
+sed -i "s|index.html|index.php|g" /etc/httpd/conf/httpd.conf
+sed -i "s|Listen 80|Listen 0.0.0.0:80|g" /etc/httpd/conf/httpd.conf
+service codedeploy-agent start
+service codedeploy-agent status
+systemctl start httpd
+systemctl enable httpd
+#Permission Settings
+usermod -a -G apache ec2-user
+git clone https://github.com/ajaykumar011/cloudformation_files.git /var/www/html/ && rm -rf /var/www/html/.git*
+chown -R ec2-user:apache /var/www
+chmod 2775 /var/www
+find /var/www -type d -exec chmod 2775 {} \;
+find /var/www -type f -exec chmod 0664 {} \;
+echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
