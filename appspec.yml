@@ -16,7 +16,7 @@ hooks:
       timeout: 300
       runas: root 
   ApplicationStop:
-    - location: scripts/deregister_from_elb.sh
+    # - location: scripts/deregister_from_elb.sh  # this is not required nowadays because ELB itself supports this.
     - location: scripts/stop_httpd.sh
       timeout: 300
       runas: root
@@ -24,7 +24,7 @@ hooks:
     - location: scripts/start_httpd.sh
       timeout: 3600
       runas: root
-    - location: scripts/register_with_elb.sh
+    # - location: scripts/register_with_elb.sh  #not required modern ELB itself support this
   ValidateService:
     - location: scripts/status_httpd.sh
       timeout: 3600
