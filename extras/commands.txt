@@ -1,0 +1,54 @@
+
+Step-1
+#IAM instance profile for your Amazon EC2 instances (CLI) 
+#Create Two files called CodeDeployDemo-EC2-Permissions.json and CodeDeployDemo-EC2-Trust.json
+#Please note- IN the CodeDeployDemo-Ec2-Permissions.json we need to enter the s3 bucket name in which code-zip resides
+
+
+
+
+# Run the below command above setup above.
+aws iam create-role --role-name CodeDeployDemo-EC2-Instance-Profile --assume-role-policy-document file://CodeDeployDemo-EC2-Trust.json
+aws iam put-role-policy --role-name CodeDeployDemo-EC2-Instance-Profile --policy-name CodeDeployDemo-EC2-Permissions --policy-document file://CodeDeployDemo-EC2-Permissions.json
+aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore --role-name CodeDeployDemo-EC2-Instance-Profile
+aws iam create-instance-profile --instance-profile-name CodeDeployDemo-EC2-Instance-Profile
+aws iam add-role-to-instance-profile --instance-profile-name CodeDeployDemo-EC2-Instance-Profile --role-name CodeDeployDemo-EC2-Instance-Profile 
+
+
+Step-2 (Do this on console)
+#This has to be done with Console(Graphic).
+#Inline Policy to be attached with AWSCodeDeploy if you using default aws made policy, 
+#but we have attached in the AWSCodeDeployRole.json file (included here)
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateTags",
+                "ec2:RunInstances",
+                "iam:PassRole"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+#code deploy Trust relationship docker (Just to verify)
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "codedeploy.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+
+
