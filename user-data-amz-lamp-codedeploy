@@ -33,6 +33,7 @@ service codedeploy-agent start
 service codedeploy-agent status
 systemctl start httpd
 systemctl enable httpd
+
 #Permission Settings
 usermod -a -G apache ec2-user
 git clone https://github.com/ajaykumar011/cloudformation_files.git /var/www/html/ && rm -rf /var/www/html/.git*
@@ -41,3 +42,13 @@ chmod 2775 /var/www
 find /var/www -type d -exec chmod 2775 {} \;
 find /var/www -type f -exec chmod 0664 {} \;
 echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
+
+#AWS Logs for code deploy
+yum install -y awslogs
+wget https://s3.amazonaws.com/aws-codedeploy-us-east-1/cloudwatch/codedeploy_logs.conf
+mkdir -p /var/awslogs/etc/config
+cp codedeploy_logs.conf /var/awslogs/etc/config/
+sed -i "s/us-east-1/$REGION/g" /etc/awslogs/awscli.conf
+# Start the service logs
+systemctl start awslogsd
+systemctl enable awslogsd.service

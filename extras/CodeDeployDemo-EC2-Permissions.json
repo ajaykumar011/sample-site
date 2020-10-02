@@ -1,17 +1,33 @@
 {
   "Version": "2012-10-17",
   "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "s3:Get*",
-        "s3:List*"
-      ],
-      "Resource": [
-        "arn:aws:s3:::cloudzone99/*",
-        "arn:aws:s3:::aws-codedeploy-ap-south-1/*",
-        "arn:aws:s3:::aws-codedeploy-us-east-1/*"
-      ]
-    }
+      {
+          "Action": [
+              "s3:Get*",
+              "s3:List*"
+          ],
+          "Effect": "Allow",
+          "Resource": "*"
+      }
   ]
 }
+
+
+// This is restricted to one bucket. Normally used when we use simply codepipline or Jenkins+ codepipeline
+// {
+//   "Version": "2012-10-17",
+//   "Statement": [
+//     {
+//       "Effect": "Allow",
+//       "Action": [
+//         "s3:Get*",
+//         "s3:List*"
+//       ],
+//       "Resource": [
+//         "arn:aws:s3:::cloudzone99/*",
+//         "arn:aws:s3:::aws-codedeploy-ap-south-1/*",
+//         "arn:aws:s3:::aws-codedeploy-us-east-1/*"
+//       ]
+//     }
+//   ]
+// }

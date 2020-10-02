@@ -8,9 +8,9 @@ wget https://aws-codedeploy-${REGION}.s3.amazonaws.com/releases/codedeploy-agent
 yum -y install codedeploy-agent-1.1.2-1855.noarch.rpm
 # Install the Amazon CloudWatch Logs Agent
 yum install -y awslogs-1.1.4
-wget https://s3.amazonaws.com/aws-codedeploy-${REGION}/cloudwatch/codedeploy_logs.conf
+wget https://s3.amazonaws.com/aws-codedeploy-us-east-1/cloudwatch/codedeploy_logs.conf
 mkdir -p /var/awslogs/etc/config
 cp codedeploy_logs.conf /var/awslogs/etc/config/
-sed -i 's/${REGION}/${REGION}/g' /etc/awslogs/awscli.conf
+sed -i "s/us-east-1/${REGION}/g" /etc/awslogs/awscli.conf
 # Start the service logs
 service awslogs start
