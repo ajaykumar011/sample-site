@@ -4,16 +4,10 @@ phases:
    commands:
      - |
          export DEBIAN_FRONTEND=noninteractive
-         lsb_release –ds
          cat /etc/os-release 
          uname –a
-         hostname -f && hostnamectl 
-         apt-get install hwinfo && hwinfo –-short
-         dmidecode -t bios
          whoami
          lsblk && df –h
-         fdisk –l 
-         mount –l 
          free && cat /proc/meminfo && vmstat
          printenv
 
@@ -95,4 +89,4 @@ phases:
      # If you don't need it delete it
      # - /usr/bin/mysql  -u root -e "GRANT ALL ON *.* TO 'test'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION"
      # - mysqladmin -u test create test
-     - ./vendor/bin/phpunit
+     # - ./vendor/bin/phpunit
