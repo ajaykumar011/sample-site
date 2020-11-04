@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
   </head>
   <body text="blue">
-    <h1>Welcome to the AWS EC2 Deployment Sample file</h1>
+    <h1>Welcome to the AWS EC2 Deployment Sample bbb file</h1>
     <p/>
     <?php
       // Print out the current data and time
