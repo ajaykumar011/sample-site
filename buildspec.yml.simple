@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       php: 7.2
     commands:
-      - find src/ -name "*.php" -print0 | xargs -0 -n1 php7.2 -l
+      - find src/ -name "*.php" -print0 | xargs -0 -n1 php -l
   post_build:
     commands:
       # Do not remove this statement. This command is required for AWS CodeStar projects.
