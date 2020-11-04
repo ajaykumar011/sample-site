@@ -4,7 +4,45 @@ phases:
    commands:
      - |
          export DEBIAN_FRONTEND=noninteractive
-         #Install php7.1
+         lsb_release –ds
+         cat /etc/os-release 
+         uname –a
+         hostname -f && hostnamectl 
+         apt-get install hwinfo && hwinfo –-short
+         dmidecode -t bios
+         whoami
+         lsblk && df –h
+         fdisk –l 
+         mount –l 
+         free && cat /proc/meminfo && vmstat
+         printenv
+
+         # Installation Check
+         echo Installation checking of some basic things
+
+         apt --version
+         apt update
+                 
+         apt-get -y install curl && curl ifconfig.me 
+         apt-get -y install net-tools
+         
+         echo Checking the nginx is installed or not..
+         dpkg -s  nginx  
+         dpkg-query -l | grep nginx
+                  
+         echo Getting information of nginx
+         sudo apt  info nginx 
+         sudo apt list --installed | grep nginx
+         sudo dpkg-query -l | grep nginx
+         sudo apache2ctl –status
+         
+         ps aux | grep nginx
+         sudo service --status-all | grep nginx
+         systemctl list-units --type=service 
+         systemctl list-units --type=service --state=active
+         systemctl list-units --type=service --state=running
+         
+         # Installation PHP
          apt-get update
          apt-get install -y  software-properties-common
          LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
@@ -43,7 +81,7 @@ phases:
  pre_build:
    commands:
     - echo PHP Lint Check
-    - find src/ -name "*.php" -print0 | xargs -0 -n1 php7.2 -l
+    - find src/ -name "*.php" -print0 | xargs -0 -n1 php -l
  build:
    commands:
      - echo Build started on `date`
