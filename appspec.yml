@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 
 files:
-  - source: ./
+  - source: ./src
     destination: /var/www/html
     overwrite: yes
 
