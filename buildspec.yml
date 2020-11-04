@@ -59,7 +59,7 @@ phases:
                   php7.2-curl \
                   unzip
          #Enable xdebug - phpunit uses this for code coverage
-         phpenmod xdebug
+         #phpenmod xdebug
          #Install composer
          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
          php composer-setup.php ;
